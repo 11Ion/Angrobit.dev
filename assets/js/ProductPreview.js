@@ -36,6 +36,7 @@ class ProductPreview {
         }
     }
 
+    
     loadProductPreview(productData) {
         const clothingURL = `${window.location.origin}/assets/models/${productData.model}`;
         const descPopup = new Popup(this.templateId, "preview_product_description", "preview_product_close", "preview_product_close_btn", null);
@@ -50,7 +51,8 @@ class ProductPreview {
         this.showProductDesc(productData)
         descPopup.open();
     }
-
+    
+    // function set data in product preview template
     showProductDesc(data) {
         const nameElement = document.getElementById("name_product_preview");
         const priceElement = document.getElementById("price_product_price");
@@ -107,7 +109,7 @@ class ProductPreview {
             sizingChartContainer.style.display = "none";
         });
     }
-    
+    // function add to local storage history view
     addToViewed(data) {
         let products = localStorage.getItem('historyView');
         products = products ? JSON.parse(products) : [];
