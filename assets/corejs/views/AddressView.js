@@ -19,11 +19,9 @@ export class AddressView {
     }
 
     fillForm(address) {
-        console.log(address)
         Object.keys(address).forEach(key => {
             if (this.form.elements[key]) {
                 this.form.elements[key].value = address[key] || '';
-                console.log(key)
             }
         });
     }

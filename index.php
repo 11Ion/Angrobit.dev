@@ -381,7 +381,10 @@
          </div>
 
       <script type="module" src="./assets/js/main.js"></script>
-      <script type="module">import { addtocard } from './assets/js/main.js'; window.addtocard = addtocard; import { Popup } from "./assets/js/classPopup.js";</script>
+      <script type="module">
+         import { addtocard } from './assets/js/main.js'; window.addtocard = addtocard; 
+         import { Popup } from "./assets/js/classPopup.js"; window.Popup = Popup; 
+      </script>
       <script>
          const UrlApiCollection = "https://angrobit.com/api"
          // response api example collections popup
@@ -544,7 +547,6 @@
                         updateDots(index);
                   });
                   sliderIndicators.appendChild(dot);
-                  console.debug(dot)
                });
             }
             

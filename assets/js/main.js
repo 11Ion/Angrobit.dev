@@ -1,5 +1,11 @@
 import { Scene3d } from './classScene3d.js';
 import { Popup } from './classPopup.js';
+import Root from './root.js';
+
+
+const root = new Root();
+console.log(root.page)
+
 
 const URL_MAN_MANNEQUIN = `${window.location.origin}/assets/models/man_mannequin.gltf`;
 const isHome = document.getElementById("home");
@@ -915,7 +921,6 @@ async function SearchNav(term) {
 }
 // function add prodicut to card
 export function addtocard() {
-   console.log("removed function");
    event.stopPropagation(); 
    let cardid = localStorage.getItem('id'); // Получаем ID карты из localStorage
    const urlParams = new URLSearchParams(window.location.search);
