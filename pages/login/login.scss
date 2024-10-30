@@ -1,0 +1,214 @@
+
+
+.body{
+    &.login{
+        background: rgba(0, 0, 0, 0.2) url("../../assets/images/login/bg_login.png");
+        background-size: cover;
+        background-position: center;
+        background-repeat: no-repeat;
+        padding: 36px 51px;
+    }
+}
+.container_login{
+    z-index: 2;
+    position: relative;
+    width: 275px;
+    display: flex;
+    flex-direction: column;
+    background: linear-gradient(105deg, #07141f 0%, #0d2940 100%);
+    height: 100%;
+    border-radius: 8px 0 0 8px;
+    padding: 20px;
+
+    .container_logo{
+        display: flex;
+        justify-content: center;
+        width: 100%;
+        img{
+            width: 66px;
+            height: 38px;
+        }
+    }
+
+    .methods_login{
+        margin-top: 35px;
+        width: 100%;
+        display: flex;
+        flex-direction: column;
+        align-items: center ;
+        gap: 8px;
+        .text{
+            font-family: "Roboto", sans-serif;
+            font-weight: 400;
+            font-size: 10px;
+            letter-spacing: 0.01em;
+            color: #fff;
+        }
+        .method_login{
+            width: 188px;
+            height: 28px;
+            display: flex;
+            gap: 6px;
+            padding: 0 12px 0 12px;
+            align-items: center;
+            font-family: "Roboto", sans-serif;
+            font-weight: 400;
+            font-size: 9px;
+            letter-spacing: -0.02em;
+            color: #fff;
+            border-radius: 5px;
+            background: #394450;
+            &:hover{
+                transition: all 0.3s ease;
+                opacity: 0.8;
+            }
+        }
+
+        .container_separator{
+            width: 188px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 5px;
+            .line{
+                    border: 0.70px solid #394450;
+                    width: 89px;
+                    height: 0px;
+            }
+            .text{
+                font-family: "Roboto", sans-serif;
+                font-weight: 400;
+                font-size: 7px;
+                color: #fff;
+            }
+        }
+    }
+
+    .login_form{
+        margin-top: 22px;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 9px;
+        .input_group{
+            display: flex;
+            flex-direction: column;
+            label{
+                font-family: "Roboto", sans-serif;
+                font-weight: 400;
+                font-size: 10px;
+                letter-spacing: -0.03em;
+                color: #fff;
+                margin-bottom: 6px;
+            }
+            input{
+                padding-left: 7px;
+                border-radius: 5px;
+                width: 188px;
+                height: 26px;
+                background: #394450;
+                border: none;
+                font-family: "Roboto", sans-serif;
+                font-weight: 400;
+                font-size: 9px;
+                letter-spacing: 0.03em;
+                color: #fff;
+                &:hover{
+                    transition: all 0.3s ease;
+                    opacity: 0.8;
+                }
+                &:focus{
+                    opacity: 1;
+                }
+            }
+        }
+
+
+        .forgot_password{
+            width: 188px;
+            a{
+                font-family: "Roboto", sans-serif;
+                font-weight: 400;
+                font-size: 7px;
+                letter-spacing: 0.04em;
+                color: #fff;
+            }
+           
+        }
+
+        .button{
+            width: 188px;
+            height: 32px;
+            background: #394450;
+            border-radius: 5px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border: none;
+            font-family: "Roboto", sans-serif;
+            font-weight: 400;
+            font-size: 9px;
+            letter-spacing: 0.03em;
+            color: #fff;
+            &:hover{
+                transition: all 0.3s ease;
+                opacity: 0.8;
+            }
+            &:active{
+                opacity: 1;
+            }
+        }
+    }
+
+    .signup{
+        margin-top: 12px;
+        display: flex;
+        justify-content: center;
+        font-family: "Roboto", sans-serif;
+        font-weight: 400;
+        font-size: 9px;
+        letter-spacing: 0.04em;
+        text-align: center;
+        color: #fff;
+        a{
+            color: #fff;
+            &:hover{
+                transition: all 0.3s ease;
+                text-decoration: underline;
+            }
+        }
+    }
+
+    .terms_links{
+        position: absolute;
+        bottom: 16px;
+        left: 0;
+        display: flex;
+        gap: 28px;
+        width: 100%;
+        align-items: center;
+        justify-content: center;
+        a{
+            font-family: "Roboto", sans-serif;
+            font-weight: 400;
+            font-size: 8px;
+            letter-spacing: 0.01em;
+            color: #fff;
+            &:hover{
+                transition: all 0.3s ease;
+                text-decoration: underline;
+            }
+        }
+    }
+}
+.wrapper_login{
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    width: 100%;
+    background: url("../../assets/images/login/bg_login.png");
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    box-shadow: 31px 58px 13px 95px rgba(0, 0, 0, 0.25);
+}
