@@ -113,20 +113,7 @@ class ProductPreview {
         products = products ? JSON.parse(products) : [];
         const productExists = products.some(product => product.id === data.id);
         if (!productExists) {
-            const productData = {
-                id: data.id,
-                name: data.name,
-                price: data.price,
-                image: data.image,
-                size: data.size,
-                color: data.color,
-                description: data.description,
-                material: data.material,
-                benefici: data.benefici,
-                model: data.model,
-                type_product: data.type_product
-            };
-            products.push(productData);
+            products.push(data);
             localStorage.setItem('historyView', JSON.stringify(products));
         }
     }
