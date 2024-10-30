@@ -1,9 +1,9 @@
 //  Carousel3D.js
 class Carousel3D {
-    constructor(selector, scene) {
+    constructor(selector, scene, objects, container) {
         this.carousel = document.querySelector(selector);
-        this.objects = document.querySelectorAll('.rotating_object');
-        this.container = document.querySelector('.scene_3d');
+        this.objects = document.querySelectorAll(objects);
+        this.container = document.querySelector(container);
         this.angle = 0;
         this.isAnimating = false;
         this.currentIndex = 0;

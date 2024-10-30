@@ -13,7 +13,7 @@ if(root.page === "home"){
    document.addEventListener('DOMContentLoaded', () => {
       const scene = new SceneManager(".model", UrlMannequin, root.page);
       scene.initScene();
-      const carousel3D = new Carousel3D('.carousel', scene);
+      const carousel3D = new Carousel3D('.carousel', scene, '.rotating_object', '.scene_3d');
       const preview = new ProductPreview("preview_carousel_btn", "desc-product-template");
    });
 }
