@@ -1,5 +1,5 @@
-export class Carousel3D {
-    constructor(selector) {
+class Carousel3D {
+    constructor(selector, scene) {
         this.carousel = document.querySelector(selector);
         this.objects = document.querySelectorAll('.rotating_object');
         this.container = document.querySelector('.scene_3d');
@@ -10,6 +10,8 @@ export class Carousel3D {
         this.isDragging = false;
         this.startX = 0;
         this.isAutoplayActive = false;
+        this.bestClothing = { merh1: [], merh2: [], merh3: [], merh4: [], merh5: [], merh6: [] };
+        this.scene = scene;
         this.initCarousel();
     }
 
@@ -17,15 +19,14 @@ export class Carousel3D {
         const totalSlides = document.querySelectorAll('.carousel_slide').length;
         if (index >= totalSlides) index = 0;
         else if (index < 0) index = totalSlides - 1;
-
         const offset = -index * 100;
         this.carousel.style.transform = `translateX(${offset}%)`;
         this.carousel.setAttribute('data-current-index', index);
-
         const currentSlide = document.querySelectorAll(".carousel_slide")[index];
         if (currentSlide) {
             document.querySelector(".name_product").innerHTML = currentSlide.getAttribute('data-name');
         }
+        this.updateClothingVisibility(`merh${index + 1}`);
     }
 
     rotateToObject(objectIndex) {
@@ -33,7 +34,6 @@ export class Carousel3D {
         this.isAnimating = true;
         const targetAngle = -((objectIndex - 1.5) * (Math.PI / 3));
         const rotationSpeed = 0.1;
-
         const animateRotation = () => {
             const delta = targetAngle - this.angle;
             this.angle += delta * rotationSpeed;
@@ -50,7 +50,6 @@ export class Carousel3D {
 
     positionObjects() {
         let xMultiplier, yMultiplier, zMultiplier, unit;
-
         if (window.innerWidth < 600 && window.innerHeight < 1000) {
             xMultiplier = 120;
             yMultiplier = 50;
@@ -64,7 +63,6 @@ export class Carousel3D {
             unit = 'vmin';
             if (this.container) this.container.style.perspective = "300vmax";
         }
-
         this.objects.forEach((object, index) => {
             const offsetAngle = this.angle + (index * (Math.PI / 3));
             const x = Math.cos(offsetAngle) * xMultiplier;
@@ -120,7 +118,60 @@ export class Carousel3D {
         this.startAutoplay();
     }
 
+    get3DClothings(){
+        const arraySlides = document.querySelectorAll(".carousel_slide");
+        const clothings = Array.from(arraySlides).map(slide => {
+            return {
+               urlModelProduct: slide.getAttribute('data-model'),
+               category: slide.getAttribute('data-type'),   
+               name: slide.getAttribute('data-name'),           
+               color: slide.getAttribute('data-color')       
+            };
+        });
+        return clothings;
+    }
+
+    loadAllClothings() {
+        const clothings = this.get3DClothings();
+    
+        clothings.forEach((clothing, index) => {
+            const fullModelUrl = `${window.location.origin}/assets/models/${clothing.urlModelProduct}`;
+            const clothingKey = `merh${index + 1}`;
+            
+            this.scene.putOnclothes(fullModelUrl, clothing.category, clothing.name, clothing.color, (model) => {
+                model.traverse(child => child.visible = false); 
+                
+                this.bestClothing[clothingKey].push({
+                    model,
+                    name: clothing.name,
+                    color: clothing.color,
+                    modelProduct: clothing.urlModelProduct
+                });
+            });
+        });
+    }
+    
+    updateClothingVisibility(key) {
+        if (!this.bestClothing[key]) return;
+
+        Object.keys(this.bestClothing).forEach(k => {
+            this.bestClothing[k].forEach(item => {
+                item.model.traverse(child => {
+                    if (child) child.visible = false;
+                });
+            });
+        });
+
+        const selectedClothing = this.bestClothing[key][0];
+        if (selectedClothing) {
+            selectedClothing.model.traverse(child => {
+                if (child) child.visible = true;
+            });
+        }
+    }
+
     initCarousel() {
+        this.loadAllClothings()
         this.positionObjects();
         this.startAutoplay();
         setInterval(() => this.positionObjects(), 16);

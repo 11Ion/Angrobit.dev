@@ -39,18 +39,15 @@ class ProductPreview {
     loadProductPreview(productData) {
         const clothingURL = `${window.location.origin}/assets/models/${productData.model}`;
         const descPopup = new Popup(this.templateId, "preview_product_description", "preview_product_close", "preview_product_close_btn", null);
-
         if (this.previewScene) {
             this.previewScene.scene.renderer.dispose();
             this.previewScene = null;
         }
-        
         const manMannequin = `${window.location.origin}/assets/models/man_mannequin.gltf`;
         this.previewScene = new SceneManager('.model2', manMannequin, 'popup_preview');
         this.previewScene.initScene();
         this.previewScene.loadClothing(clothingURL, productData.type_product, productData.name, productData.color);
         this.showProductDesc(productData)
-
         descPopup.open();
     }
 
@@ -93,8 +90,8 @@ class ProductPreview {
         });
     
         this.addToViewed(data);
-    
-        // sizing chart
+
+        // sizing chart toggle
         const btnToggleSizingChart = document.querySelector(".size_chart");
         const rightContentDesc = document.getElementById("right_content_desc");
         const sizingChartContainer = document.querySelector(".sizing_chart_container");

@@ -3,26 +3,23 @@ import { Popup } from './classPopup.js';
 import Root from './root.js';
 import Carousel3D from './Carousel3D.js';
 import ProductPreview from './ProductPreview.js';
+import SceneManager from './SceneManager.js';
 
 const root = new Root();
 console.debug(root.page)
-
-
-const URL_MAN_MANNEQUIN = `${window.location.origin}/assets/models/man_mannequin.gltf`;
-const isCatalog = document.getElementById("catalog");
+const UrlMannequin = `${window.location.origin}/assets/models/man_mannequin.gltf`;
 
 if(root.page === "home"){
    document.addEventListener('DOMContentLoaded', () => {
-   const homeScene = new Scene3d('.model', URL_MAN_MANNEQUIN, 'home');
-   homeScene.initScene();
-   const carousel3D = new Carousel3D('.carousel');
-   const preview = new ProductPreview("preview_carousel_btn", "desc-product-template");
-
-});
+      const scene = new SceneManager(".model", UrlMannequin, root.page);
+      scene.initScene();
+      const carousel3D = new Carousel3D('.carousel', scene);
+      const preview = new ProductPreview("preview_carousel_btn", "desc-product-template");
+   });
 }
 
-if(isCatalog){
-   var catalogScene = new Scene3d('.model', URL_MAN_MANNEQUIN, 'catalog');
+if(root.page === "catalog"){
+   var catalogScene = new Scene3d('.model', UrlMannequin, 'catalog');
    catalogScene.initScene();
    // Функция для получения всех продуктов
       async function fetchProducts() {
@@ -253,7 +250,7 @@ function ProductCatalogShow(result) {
      }
 
       const descPopup = new Popup("desc-product-template", "preview_product_description", "preview_product_close", "preview_product_close_btn", null);
-      previewScene = new Scene3d('.model2', URL_MAN_MANNEQUIN, 'popup_preview');
+      previewScene = new Scene3d('.model2', UrlMannequin, 'popup_preview');
       previewScene.initScene();
       previewScene.loadSingleClothing(clothingURL, type, name, color);
       showProductDesc(productData);
@@ -511,7 +508,7 @@ async function lastViewed() {
                 // events click
                 const clothingURL = `${window.location.origin}/assets/models/${productArray.model}`
                 const descPopup = new Popup("desc-product-template", "preview_product_description", "preview_product_close", "preview_product_close_btn", null);
-                previewScene = new Scene3d('.model2', URL_MAN_MANNEQUIN, 'popup_preview');
+                previewScene = new Scene3d('.model2', UrlMannequin, 'popup_preview');
                 previewScene.initScene();
                 previewScene.loadSingleClothing(clothingURL, productArray.type_product, productArray.name, productArray.color);
                 showProductDesc(productArray);
@@ -655,7 +652,7 @@ async function SearchNav(term) {
                 // events click search product
                 const clothingURL = `${window.location.origin}/assets/models/${productArray.model}`
                 const descPopup = new Popup("desc-product-template", "preview_product_description", "preview_product_close", "preview_product_close_btn", null);
-                previewScene = new Scene3d('.model2', URL_MAN_MANNEQUIN, 'popup_preview');
+                previewScene = new Scene3d('.model2', UrlMannequin, 'popup_preview');
                 previewScene.initScene();
                 previewScene.loadSingleClothing(clothingURL, productArray.type_product, productArray.name, productArray.color);
                 showProductDesc(productArray);

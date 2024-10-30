@@ -80,6 +80,8 @@ if(isHome){
    }
    
    updateCarousel(0);
+
+   
    const arraySlides = document.querySelectorAll(".carousel_slide");
    const clothings = Array.from(arraySlides).map(slide => {
       return {
@@ -136,6 +138,7 @@ if(isHome){
          } 
       }
    }
+
    loadAllClothings();
 
    function rotateToObject(objectIndex) {
