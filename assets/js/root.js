@@ -16,7 +16,7 @@ class Root {
           return "catalog";
         
         case "collection.php":
-          return "Collection";
+          return "collection";
         
         case "index.php":
           return "home";

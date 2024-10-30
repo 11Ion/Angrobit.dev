@@ -6,18 +6,17 @@ class ProductPreview {
         this.previewButton = document.getElementById(buttonId);
         this.templateId = templateId;
         this.previewScene = null;
-
         this.initPreview();
+        this.currentIndex = 0;
     }
 
     initPreview() {
         if (this.previewButton) {
+
             this.previewButton.addEventListener('click', () => {
-                const currentIndex = parseInt(
-                    document.querySelector('.carousel').getAttribute('data-current-index'),
-                    10
-                );
-                const currentSlide = document.querySelectorAll('.carousel_slide')[currentIndex];
+
+                this.currentIndex = parseInt(document.querySelector('.carousel').getAttribute('data-current-index'), 10);
+                const currentSlide = document.querySelectorAll('.carousel_slide')[this.currentIndex];
 
                 const productData = {
                     id: currentSlide.getAttribute('data-id'),

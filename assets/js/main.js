@@ -2,10 +2,10 @@ import { Scene3d } from './classScene3d.js';
 import { Popup } from './classPopup.js';
 import Root from './root.js';
 import Carousel3D from './Carousel3D.js';
-
+import ProductPreview from './ProductPreview.js';
 
 const root = new Root();
-console.log(root.page)
+console.debug(root.page)
 
 
 const URL_MAN_MANNEQUIN = `${window.location.origin}/assets/models/man_mannequin.gltf`;
@@ -15,11 +15,8 @@ if(root.page === "home"){
    document.addEventListener('DOMContentLoaded', () => {
    const homeScene = new Scene3d('.model', URL_MAN_MANNEQUIN, 'home');
    homeScene.initScene();
-
    const carousel3D = new Carousel3D('.carousel');
-
-
-   
+   const preview = new ProductPreview("preview_carousel_btn", "desc-product-template");
 
 });
 }

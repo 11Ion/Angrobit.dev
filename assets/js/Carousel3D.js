@@ -1,4 +1,4 @@
-class Carousel3D {
+export class Carousel3D {
     constructor(selector) {
         this.carousel = document.querySelector(selector);
         this.objects = document.querySelectorAll('.rotating_object');
@@ -125,6 +125,7 @@ class Carousel3D {
         this.startAutoplay();
         setInterval(() => this.positionObjects(), 16);
         window.addEventListener('resize', () => this.positionObjects()); 
+        this.updateCarousel(0)
 
         this.objects.forEach((object, index) => {
             object.addEventListener('click', () => {
