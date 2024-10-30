@@ -208,7 +208,7 @@ if(isHome){
          rotateToObject(currentIndex);
       }, 2000);
    }
-   
+
    function pauseAutoplay() {
       isAutoplayActive = false;
       clearInterval(autoplayInterval);
@@ -524,26 +524,26 @@ function showProductDesc(data) {
    const sizingRows = document.querySelectorAll('.size_table_row');
 
   // set data template
-  sizeName.innerText = data.size;
-  colordesc.style.background = data.color;
-  descProduct.innerText = data.description;
-  nameMaterial.innerText = data.material;
-  imagedesc.src = data.image;
-  materialBg.style.backgroundImage = `url(${window.location.origin + "/assets/images/home/cotton.webp"})`;
-  beneficiContainer.innerHTML = `<li class="item"> <span class="icon"><img src="${window.location.origin}/assets/images/home/icon_favorites.svg" alt="${data.name}" /></span> <span class="text">${data.benefici}</span></li>`;
-  nameElement.innerText = data.name;
-  priceElement.innerText = parseFloat(data.price).toFixed(2);
-  btnAddToCart.setAttribute('data-id', data.id);
-  btnAddToCart.setAttribute('data-name', data.name);
-  btnAddToCart.setAttribute('data-price', data.price);
-  btnAddToCart.setAttribute('data-image', data.image);
-  btnAddToCart.setAttribute('data-size', data.size);
-  btnAddToCart.setAttribute('data-color', data.color);
-  sizingRows.forEach(row => { row.classList.remove('selected') });
-  sizingRows.forEach(row => {
-     const sizeCell = row.querySelector('.size_table_cell'); 
-     if (sizeCell && sizeCell.textContent.trim() === data.size) { row.classList.add('selected')}
-  });
+   sizeName.innerText = data.size;
+   colordesc.style.background = data.color;
+   descProduct.innerText = data.description;
+   nameMaterial.innerText = data.material;
+   imagedesc.src = data.image;
+   materialBg.style.backgroundImage = `url(${window.location.origin + "/assets/images/home/cotton.webp"})`;
+   beneficiContainer.innerHTML = `<li class="item"> <span class="icon"><img src="${window.location.origin}/assets/images/home/icon_favorites.svg" alt="${data.name}" /></span> <span class="text">${data.benefici}</span></li>`;
+   nameElement.innerText = data.name;
+   priceElement.innerText = parseFloat(data.price).toFixed(2);
+   btnAddToCart.setAttribute('data-id', data.id);
+   btnAddToCart.setAttribute('data-name', data.name);
+   btnAddToCart.setAttribute('data-price', data.price);
+   btnAddToCart.setAttribute('data-image', data.image);
+   btnAddToCart.setAttribute('data-size', data.size);
+   btnAddToCart.setAttribute('data-color', data.color);
+   sizingRows.forEach(row => { row.classList.remove('selected') });
+   sizingRows.forEach(row => {
+      const sizeCell = row.querySelector('.size_table_cell'); 
+      if (sizeCell && sizeCell.textContent.trim() === data.size) { row.classList.add('selected')}
+   });
 
   // сохрание истории просмотров
   function addToViewed(data) {
