@@ -14,11 +14,7 @@ class SceneManager {
     }
 
     putOnclothes(itemUrl, type, name, color, callback) {
-        if (this.scene && typeof this.scene.putOnclothes === 'function') {
-            this.scene.putOnclothes(itemUrl, type, name, color, callback);
-        } else {
-            console.error("Error loading 3d clothings.");
-        }
+        this.scene.putOnclothes(itemUrl, type, name, color, callback);
     }
 }
 
