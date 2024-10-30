@@ -1,6 +1,7 @@
 import { Scene3d } from './classScene3d.js';
 import { Popup } from './classPopup.js';
 import Root from './root.js';
+import Carousel3D from './Carousel3D.js';
 
 
 const root = new Root();
@@ -8,266 +9,19 @@ console.log(root.page)
 
 
 const URL_MAN_MANNEQUIN = `${window.location.origin}/assets/models/man_mannequin.gltf`;
-const isHome = document.getElementById("home");
 const isCatalog = document.getElementById("catalog");
 
-if(isHome){
+if(root.page === "home"){
    document.addEventListener('DOMContentLoaded', () => {
    const homeScene = new Scene3d('.model', URL_MAN_MANNEQUIN, 'home');
    homeScene.initScene();
 
-   // carousell home
-   const carousel = document.querySelector('.carousel');
-   const objects = document.querySelectorAll('.rotating_object');
-   const container = document.querySelector('.scene_3d');
-   
-   let angle = 0;
-   let isAnimating = false;
-   let currentIndex = 0;
-   let autoplayInterval;
-   let isDragging = false;
-   let startX;
-   let isAutoplayActive = false;
-   
-   // Функция для обновления карусель и перехода к нужному слайду
-   function updateCarousel(index) {
-      const totalSlides = document.querySelectorAll('.carousel_slide').length;
-      if (index >= totalSlides) { index = 0 } 
-      else if (index < 0) { index = totalSlides - 1 }
-      const offset = -index * 100;
-      carousel.style.transform = `translateX(${offset}%)`;
-      carousel.setAttribute('data-curent-index', index); // Обновляем атрибут для текущего индекса
-      const currentIndex = document.querySelectorAll(".carousel_slide")[index];
-      if (currentIndex) {
-         const nameProductSlider = document.querySelector(".name_product");
-         nameProductSlider.innerHTML = currentIndex.getAttribute('data-name');
-      }
-   }
-   
-   // button preview desc product
-   const previewButton = document.getElementById('preview_carousel_btn');
-   if (previewButton) {
+   const carousel3D = new Carousel3D('.carousel');
 
-      let previewScene = null; 
-      previewButton.addEventListener('click', () => {
-         pauseAutoplay();
-         let currentIndex = parseInt(carousel.getAttribute('data-curent-index'), 10); // current index slide
-         const currentSlide = document.querySelectorAll('.carousel_slide')[currentIndex]; // current slide
-   
-         // get data from data atribute
-         const productArray = {
-           id: currentSlide.getAttribute('data-id'),
-           name:currentSlide.getAttribute('data-name'),
-           price: currentSlide.getAttribute('data-price'),
-           image: currentSlide.getAttribute('data-image'),
-           size: currentSlide.getAttribute('data-size'),
-           color: currentSlide.getAttribute('data-color'),
-           description: currentSlide.getAttribute('data-description'),
-           material: currentSlide.getAttribute('data-material'),
-           benefici: currentSlide.getAttribute('data-benefici'),
-           model: currentSlide.getAttribute('data-model'),
-           type_product:currentSlide.getAttribute('data-type')
-         };
 
-         if (previewScene) {
-            previewScene.renderer.dispose(); // clear memory
-            previewScene = null;
-        }
-
-         // add desc scene clotihing
-         const clothingURL = `${window.location.origin}/assets/models/${productArray.model}`; // url clothing
-         const descPopup = new Popup("desc-product-template", "preview_product_description", "preview_product_close", "preview_product_close_btn", null);
-         previewScene = new Scene3d('.model2', URL_MAN_MANNEQUIN, 'popup_preview');
-         previewScene.initScene();
-         previewScene.loadSingleClothing(clothingURL, productArray.type_product, productArray.name, productArray.color);
-         showProductDesc(productArray);
-         descPopup.open();
-       });
-   }
    
-   updateCarousel(0);
-   const arraySlides = document.querySelectorAll(".carousel_slide");
-   const clothings = Array.from(arraySlides).map(slide => {
-      return {
-         urlModelProduct: slide.getAttribute('data-model'),
-         category: slide.getAttribute('data-type'),   
-         name: slide.getAttribute('data-name'),           
-         color: slide.getAttribute('data-color')       
-      };
-   });
-   // Объект, содержащий загруженные модели
-   const bestClothing = { merh1: [], merh2: [], merh3: [], merh4: [], merh5: [], merh6: [] };
-   // load all clothing from data slides
-   function loadAllClothings() {
-      clothings.forEach((clothing, index) => {
-         const fullModelUrl = `${window.location.origin}/assets/models/${clothing.urlModelProduct}`;
-         const clothingKey = `merh${index + 1}`; 
-   
-         homeScene.putOnclothes(fullModelUrl, clothing.category, clothing.name, clothing.color, (model) => {
-            model.traverse(child => {
-               child.visible = false; 
-            });
-   
-   
-            bestClothing[clothingKey].push({
-               model,
-               name: clothing.name,
-               color: clothing.color,
-               modelProduct: clothing.urlModelProduct
-            });
-         });
-      });
-   }
-   function updateClothingVisibility(key) {
-      if (bestClothing[key]) {
-   
-         Object.keys(bestClothing).forEach(key => {
-            bestClothing[key].forEach(item => {
-               item.model.traverse(child => {
-                  if (child) {
-                     child.visible = false; 
-                  }
-               });
-            });
-         });
-   
-         if (bestClothing[key].length > 0) {
-            const firstClothingModel = bestClothing[key][0]
-            firstClothingModel.model.traverse(child => {
-               if (child) {
-                  child.visible = true; 
-               }
-            });
-         } 
-      }
-   }
-   loadAllClothings();
-   function rotateToObject(objectIndex) {
-      if (isAnimating) return;
-      isAnimating = true;
-      const targetAngle = -((objectIndex - 1.5) * (Math.PI / 3));
-      const rotationSpeed = 0.1;
-      const animateRotation = () => {
-         const delta = targetAngle - angle;
-         angle += delta * rotationSpeed;
-         if (Math.abs(delta) < 0.001) {
-            angle = targetAngle;
-            updateCarousel(objectIndex);
-            isAnimating = false;
-            const currentObject = objects[objectIndex];
-            if (currentObject) {
-               updateClothingVisibility(`merh${objectIndex + 1}`);
-            }
-         } else {
-            requestAnimationFrame(animateRotation);
-         }
-      };
-      requestAnimationFrame(animateRotation);
-   }
-   function positionObjects() {
-      const containerScene = document.querySelector(".scene_3d");
-      let xMultiplier, yMultiplier, zMultiplier;
-      let unit;
 
-      if (window.innerWidth < 600 && window.innerHeight < 1000) {
-         xMultiplier = 120;
-         yMultiplier = 50;
-         zMultiplier = 40;
-         unit = 'px'; 
-         if(containerScene){
-            containerScene.style.perspective = "200px";
-         }
-      } else {
-         xMultiplier = 18;
-         yMultiplier = 5;
-         zMultiplier = 120;
-         unit = 'vmin'; 
-         if(containerScene){
-            containerScene.style.perspective = "300vmax";
-         }
-      }
-
-      objects.forEach((object, index) => {
-         const offsetAngle = angle + (index * (Math.PI / 3));
-
-         const x = Math.cos(offsetAngle) * xMultiplier;
-         const y = Math.sin(offsetAngle) * yMultiplier;
-         const z = Math.sin(offsetAngle) * zMultiplier;
-
-         object.style.transform = `
-               translateX(${x}${unit}) 
-               translateY(${y}${unit}) 
-               translateZ(${z}${unit})`;
-
-         object.style.zIndex = Math.round(z + 10);
-      });
-   }
-   function startAutoplay() {
-      if (isAutoplayActive) return;
-      isAutoplayActive = true;
-      autoplayInterval = setInterval(() => {
-         currentIndex = (currentIndex + 1) % objects.length;
-         rotateToObject(currentIndex);
-      }, 2000);
-   }
-   function pauseAutoplay() {
-      isAutoplayActive = false;
-      clearInterval(autoplayInterval);
-   }
-   function onDragStart(event) {
-      isDragging = true;
-      startX = event.type === 'mousedown' ? event.pageX : event.touches[0].pageX;
-      pauseAutoplay();
-   }
-   function onDragMove(event) {
-      if (!isDragging) return;
-      const currentX = event.type === 'mousemove' ? event.pageX : event.touches[0].pageX;
-      const diffX = currentX - startX;
-      if (Math.abs(diffX) > 20) {
-         if (diffX > 0) {
-            currentIndex = (currentIndex - 1 + objects.length) % objects.length;
-         } else {
-            currentIndex = (currentIndex + 1) % objects.length;
-         }
-         rotateToObject(currentIndex);
-         startX = currentX;
-      }
-   }
-   function onDragEnd() {
-      isDragging = false;
-      startAutoplay();
-   }
-   function initCarousel() {
-      positionObjects();
-      startAutoplay();
-   }
-   if (objects) {
-      objects.forEach((object, index) => {
-         object.addEventListener('click', () => {
-            rotateToObject(index);
-            pauseAutoplay();
-         });
-         object.addEventListener('mouseenter', pauseAutoplay);
-         object.addEventListener('mouseleave', startAutoplay);
-      });
-   }
-   if (container) {
-      container.addEventListener('mousedown', onDragStart);
-      container.addEventListener('mousemove', onDragMove);
-      container.addEventListener('mouseup', onDragEnd);
-      container.addEventListener('mouseleave', onDragEnd);
-      container.addEventListener('touchstart', onDragStart);
-      container.addEventListener('touchmove', onDragMove);
-      container.addEventListener('touchend', onDragEnd);
-   }
-   if (carousel) {
-      carousel.addEventListener('mouseenter', pauseAutoplay);
-      carousel.addEventListener('mouseleave', startAutoplay);
-   }
-    initCarousel(); 
-    setInterval(positionObjects, 16); 
-    window.addEventListener('resize', positionObjects);
-   });
+});
 }
 
 if(isCatalog){

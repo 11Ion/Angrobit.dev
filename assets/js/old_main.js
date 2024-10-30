@@ -112,6 +112,7 @@ if(isHome){
          });
       });
    }
+
    function updateClothingVisibility(key) {
       if (bestClothing[key]) {
    
@@ -136,6 +137,7 @@ if(isHome){
       }
    }
    loadAllClothings();
+
    function rotateToObject(objectIndex) {
       if (isAnimating) return;
       isAnimating = true;
@@ -158,6 +160,7 @@ if(isHome){
       };
       requestAnimationFrame(animateRotation);
    }
+
    function positionObjects() {
       const containerScene = document.querySelector(".scene_3d");
       let xMultiplier, yMultiplier, zMultiplier;
@@ -196,6 +199,7 @@ if(isHome){
          object.style.zIndex = Math.round(z + 10);
       });
    }
+
    function startAutoplay() {
       if (isAutoplayActive) return;
       isAutoplayActive = true;
@@ -204,6 +208,7 @@ if(isHome){
          rotateToObject(currentIndex);
       }, 2000);
    }
+   
    function pauseAutoplay() {
       isAutoplayActive = false;
       clearInterval(autoplayInterval);
