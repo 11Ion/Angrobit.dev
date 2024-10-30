@@ -36,7 +36,6 @@ class ProductPreview {
         }
     }
 
-    
     loadProductPreview(productData) {
         const clothingURL = `${window.location.origin}/assets/models/${productData.model}`;
         const descPopup = new Popup(this.templateId, "preview_product_description", "preview_product_close", "preview_product_close_btn", null);

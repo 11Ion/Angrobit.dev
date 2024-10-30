@@ -1,3 +1,4 @@
+//  Carousel3D.js
 class Carousel3D {
     constructor(selector, scene) {
         this.carousel = document.querySelector(selector);
@@ -133,7 +134,6 @@ class Carousel3D {
 
     loadAllClothings() {
         const clothings = this.get3DClothings();
-    
         clothings.forEach((clothing, index) => {
             const fullModelUrl = `${window.location.origin}/assets/models/${clothing.urlModelProduct}`;
             const clothingKey = `merh${index + 1}`;
