@@ -13,12 +13,9 @@ export class Product{
     initProductEvents() {
         document.addEventListener("click", (e) => {  
             const target = e.target.closest('.product');
-            if (target) {
-                const productData = { ...target.dataset };
-                if (this.lastClickedProductId === productData.id) return;
-                this.lastClickedProductId = productData.id;
-                
-                this.updatePreviewProduct(productData);
+            if (target && this.lastClickedProductId !== target.dataset.id) {
+                this.lastClickedProductId = target.dataset.id;
+                this.updatePreviewProduct(target.dataset);
             }
         });
         this.displayDesc("btn_details");
@@ -50,8 +47,6 @@ export class Product{
         }
 
         this.globalsetting = arrayConfig;
-        console.debug(this.globalsetting)
-
     }
 
     rootprodcut(element){
@@ -83,16 +78,23 @@ export class Product{
     updatePreviewProduct(productData) {
         const previewPriceContainer = document.querySelector(".preview_product");
         previewPriceContainer.style.display = "flex";
-        // current price product
         document.getElementById("price_preview").innerText = `$ ${productData.price}`;
-        // set data atributes
+    
         const setDataAttributes = (element, data) => {
-            Object.keys(data).forEach(key => element.setAttribute(`data-${key}`, data[key]));
+            Object.entries(data).forEach(([key, value]) => element.setAttribute(`data-${key}`, value));
         };
-        // set btn details, btn addtocart atributes.
-        ['btn_details', 'add_to_cart_btn'].forEach(id => setDataAttributes(document.getElementById(id), productData));
-        // update merch scene3d
+    
+        ['btn_details', 'add_to_cart_btn'].forEach(id => {
+            const button = document.getElementById(id);
+            if (button) setDataAttributes(button, productData);
+        });
+    
         this.updateMerch(productData.model, productData.type, productData.name, productData.color);
+    }
+    
+
+    getActiveConfig(){
+        return this.globalsetting.find(item => item.array === true);
     }
 
     // show product desc
@@ -106,7 +108,8 @@ export class Product{
     }
 
     rootTemplate(products) {
-        const productsContainer = document.getElementById('productsContainer');
+        const activeConfig = this.getActiveConfig();
+        const productsContainer = document.getElementById(activeConfig.containerId);
         productsContainer.innerHTML = '';
 
         products.forEach(product => {
