@@ -14,14 +14,11 @@ export class Product{
         document.addEventListener("click", (e) => {  
             const target = e.target.closest('.product');
             if (target) {
-                const productId = target.getAttribute('data-id');
-    
-                if (this.lastClickedProductId === productId) return;
-                this.lastClickedProductId = productId;
-    
                 const productData = { ...target.dataset };
+                if (this.lastClickedProductId === productData.id) return;
+                this.lastClickedProductId = productData.id;
+                
                 this.updatePreviewProduct(productData);
-
             }
         });
         this.displayDesc("btn_details");

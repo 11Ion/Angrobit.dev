@@ -37,8 +37,6 @@ if(root.page === "catalog"){
         });
 }
 
-
-
 // show product description show
 function ProductCatalogShow(result) {
    if (result.length === 0) {
