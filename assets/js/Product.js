@@ -30,6 +30,7 @@ export class Product{
                 messages_error: 'The product was not found :(',
                 containerId : "productsContainer"
             },
+
             {
                 type: 'filtreprodcut',
                 array: false,
@@ -68,9 +69,6 @@ export class Product{
         if(this.verifyArray()){
             // themplate(data)
         }
-    }
-
-    cardthemplate(){
     }
 
     updatePreviewProduct(productData) {
