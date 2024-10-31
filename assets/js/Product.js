@@ -4,8 +4,8 @@ export class Product{
     constructor(array) {
         this.array = array;
 
-        this.BtnDetailsId = "btn_details";
-        document.addEventListener("click", this.displayDesc(this.BtnDetailsId));
+        // show product desc
+        document.addEventListener("click", this.displayDesc("btn_details"));
     }
 
     
@@ -150,7 +150,7 @@ export class Product{
             'data-id': productData.id,
             'data-name': productData.name,
             'data-price': productData.price,
-            'data-image': productData.img,
+            'data-image': 'https://angrobit.com/uploads/' + productData.img,
             'data-size': productData.size,
             'data-color': productData.color,
             'data-description':productData.description,
@@ -160,7 +160,7 @@ export class Product{
             'data-type': productData.type
         };
         
-
+        
         ['btn_details', 'add_to_cart_btn'].forEach(selector => {
             const element = document.getElementById(selector);
             Object.entries(commonAttributes).forEach(([attr, value]) => {
@@ -169,9 +169,8 @@ export class Product{
         });
     }
 
-    displayDesc(BtnDetailsId){
-       const preview = new ProductPreview(BtnDetailsId, "desc-product-template");
-
+    displayDesc(btnId){
+       const preview = new ProductPreview(btnId, "desc-product-template");
     }
 
 }
