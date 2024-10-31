@@ -20,6 +20,10 @@ if(root.page === "home"){
 }
 
 if(root.page === "catalog"){
+   
+    const scene = new SceneManager(".model", UrlMannequin, root.page);
+    scene.initScene();
+
     const sherElement = new SendServer('https://angrobit.com/api');
     sherElement.addData('type', 'allproduct');
     sherElement.addData('user', '');
@@ -28,11 +32,11 @@ if(root.page === "catalog"){
         .then(response => {
             const product = new Product(response);
             product.rootprodcut('productloader');
-
         })
         .catch(error => {
-            console.error(error); // Обработка ошибок
+            console.error(error); 
         });
+        
 
 
 
