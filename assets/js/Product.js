@@ -2,7 +2,8 @@ import ProductPreview from "./ProductPreview.js";
 
 export class Product{
     constructor(array, scene) {
-        this.array = array;
+        // this.array = array;
+        this.array = JSON.parse(array);
         this.scene = scene;
         this.lastClickedProductId = null;
         this.globalsetting = [];
@@ -26,14 +27,13 @@ export class Product{
     }
     
     verifyArray(type){
-        let arrayJson = JSON.parse(this.array);
         // Массив с конфигурациями
         const array = [
             {
                 type: 'productloader',
                 array: false,
                 messages_error: 'The product was not found :(',
-                containerId : ""
+                containerId : "productsContainer"
             },
             {
                 type: 'filtreprodcut',
@@ -47,12 +47,10 @@ export class Product{
         for (let item of array) {
             if (item.type === type) {
                 (!item.array) ? item.array = true :  item.array = false;
-                this.rootTemplate(arrayJson);
                 break;
             }
         }
 
-        // Сохраняем обновленный массив в this.globalsetting
         this.globalsetting = array;
         console.log(this.globalsetting)
 
@@ -71,6 +69,8 @@ export class Product{
 
     productloader(){
         this.verifyArray('productloader')
+        this.rootTemplate(this.array);
+        
     }
 
     filtreprodcut(){
@@ -80,6 +80,31 @@ export class Product{
     }
 
     cardthemplate(){
+    }
+
+    updatePreviewProduct(productData) {
+        const previewPriceContainer = document.querySelector(".preview_product");
+        previewPriceContainer.style.display = "flex";
+        // current price product
+        document.getElementById("price_preview").innerText = `$ ${productData.price}`;
+        // set data atributes
+        const setDataAttributes = (element, data) => {
+            Object.keys(data).forEach(key => element.setAttribute(`data-${key}`, data[key]));
+        };
+        // set btn details, btn addtocart atributes.
+        ['btn_details', 'add_to_cart_btn'].forEach(id => setDataAttributes(document.getElementById(id), productData));
+        // update merch scene3d
+        this.updateMerch(productData.model, productData.type, productData.name, productData.color);
+    }
+
+    // show product desc
+    displayDesc(btnId){
+       const preview = new ProductPreview(btnId, "desc-product-template");
+    }
+    
+    // update merch scene3d
+    updateMerch(url, type, name, color){
+        this.scene.putOnclothes(`${window.location.origin}/assets/models/${url}`, type, name, color);
     }
 
     rootTemplate(products) {
@@ -151,31 +176,6 @@ export class Product{
         productElement.appendChild(buyButton);
 
         return productElement; 
-    }
-
-    
-    updatePreviewProduct(productData) {
-        const previewPriceContainer = document.querySelector(".preview_product");
-        previewPriceContainer.style.display = "flex";
-        // current price product
-        document.getElementById("price_preview").innerText = `$ ${productData.price}`;
-
-        // set data atributes
-        const setDataAttributes = (element, data) => {
-            Object.keys(data).forEach(key => element.setAttribute(`data-${key}`, data[key]));
-        };
-        // set btn details, btn addtocart atributes.
-        ['btn_details', 'add_to_cart_btn'].forEach(id => setDataAttributes(document.getElementById(id), productData));
-        // update merch scene3d
-        this.updateMerch(productData.model, productData.type, productData.name, productData.color);
-    }
-    // show product desc
-    displayDesc(btnId){
-       const preview = new ProductPreview(btnId, "desc-product-template");
-    }
-    // function update merch scene3d
-    updateMerch(url, type, name, color){
-        this.scene.putOnclothes(`${window.location.origin}/assets/models/${url}`, type, name, color);
     }
 
 }
