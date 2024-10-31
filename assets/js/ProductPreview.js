@@ -1,5 +1,6 @@
 // ProductPreview.js
 import SceneManager from './SceneManager.js';
+import { Popup } from './classPopup.js';
 
 class ProductPreview {
     constructor(buttonId, templateId) {
@@ -12,29 +13,56 @@ class ProductPreview {
 
     initPreview() {
         if (this.previewButton) {
-
             this.previewButton.addEventListener('click', () => {
-                this.currentIndex = parseInt(document.querySelector('.carousel').getAttribute('data-current-index'), 10);
-                const currentSlide = document.querySelectorAll('.carousel_slide')[this.currentIndex];
-
-                const productData = {
-                    id: currentSlide.getAttribute('data-id'),
-                    name:currentSlide.getAttribute('data-name'),
-                    price: currentSlide.getAttribute('data-price'),
-                    image: currentSlide.getAttribute('data-image'),
-                    size: currentSlide.getAttribute('data-size'),
-                    color: currentSlide.getAttribute('data-color'),
-                    description: currentSlide.getAttribute('data-description'),
-                    material: currentSlide.getAttribute('data-material'),
-                    benefici: currentSlide.getAttribute('data-benefici'),
-                    model: currentSlide.getAttribute('data-model'),
-                    type_product:currentSlide.getAttribute('data-type')
-                  };
-                  
+                const carousel = document.querySelector('.carousel');
+                let productData;
+    
+                // Verifică dacă există `carousel` și `currentSlide`
+                if (carousel) {
+                    const currentIndex = parseInt(carousel.getAttribute('data-current-index'), 10);
+                    const currentSlide = document.querySelectorAll('.carousel_slide')[currentIndex];
+    
+                    if (currentSlide) {
+                        // Extrage datele din `currentSlide`
+                        productData = {
+                            id: currentSlide.getAttribute('data-id'),
+                            name: currentSlide.getAttribute('data-name'),
+                            price: currentSlide.getAttribute('data-price'),
+                            image: currentSlide.getAttribute('data-image'),
+                            size: currentSlide.getAttribute('data-size'),
+                            color: currentSlide.getAttribute('data-color'),
+                            description: currentSlide.getAttribute('data-description'),
+                            material: currentSlide.getAttribute('data-material'),
+                            benefici: currentSlide.getAttribute('data-benefici'),
+                            model: currentSlide.getAttribute('data-model'),
+                            type_product: currentSlide.getAttribute('data-type')
+                        };
+                    }
+                }
+    
+                // Dacă `carousel` sau `currentSlide` nu există, folosește `previewButton`
+                if (!productData) {
+                    productData = {
+                        id: this.previewButton.getAttribute('data-id'),
+                        name: this.previewButton.getAttribute('data-name'),
+                        price: this.previewButton.getAttribute('data-price'),
+                        image: this.previewButton.getAttribute('data-image'),
+                        size: this.previewButton.getAttribute('data-size'),
+                        color: this.previewButton.getAttribute('data-color'),
+                        description: this.previewButton.getAttribute('data-description'),
+                        material: this.previewButton.getAttribute('data-material'),
+                        benefici: this.previewButton.getAttribute('data-benefici'),
+                        model: this.previewButton.getAttribute('data-model'),
+                        type_product: this.previewButton.getAttribute('data-type')
+                    };
+                }
+    
+                // Încarcă previzualizarea produsului
                 this.loadProductPreview(productData);
             });
         }
     }
+    
 
     loadProductPreview(productData) {
         const clothingURL = `${window.location.origin}/assets/models/${productData.model}`;

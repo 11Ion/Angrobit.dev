@@ -1,7 +1,13 @@
+import ProductPreview from "./ProductPreview.js";
+
 export class Product{
     constructor(array) {
         this.array = array;
+
+        this.BtnDetailsId = "btn_details";
+        document.addEventListener("click", this.displayDesc(this.BtnDetailsId));
     }
+
     
     verifyArray(type){
         let arrayJson = JSON.parse(this.array);
@@ -137,7 +143,6 @@ export class Product{
     updatePreviewProduct(productData) {
         const previewPriceContainer = document.querySelector(".preview_product");
         previewPriceContainer.style.display = "flex";
-
         // current price
         document.getElementById("price_preview").innerText = `$ ${productData.price}`;
 
@@ -147,8 +152,14 @@ export class Product{
             'data-price': productData.price,
             'data-image': productData.img,
             'data-size': productData.size,
-            'data-color': productData.color
+            'data-color': productData.color,
+            'data-description':productData.description,
+            'data-material': productData.material,
+            'data-benefici': productData.benefici,
+            'data-model': productData.model,
+            'data-type': productData.type
         };
+        
 
         ['btn_details', 'add_to_cart_btn'].forEach(selector => {
             const element = document.getElementById(selector);
@@ -157,4 +168,10 @@ export class Product{
             });
         });
     }
+
+    displayDesc(BtnDetailsId){
+       const preview = new ProductPreview(BtnDetailsId, "desc-product-template");
+
+    }
+
 }

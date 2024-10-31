@@ -166,7 +166,6 @@
                     .then(response => {
                         let data = JSON.parse(response);
                         // api response top products test
-                        console.log(data)
                         createProductElements(data);
                         createCarouselSlides(data);
            
@@ -488,7 +487,7 @@
             showSlide(currentIndex);
 
             // toggle collection
-            const popupCollection = new Popup(null, "popup_collection", "mask_collection", "button_close_collection", null)
+            // const popupCollection = new Popup(null, "popup_collection", "mask_collection", "button_close_collection", null)
             setTimeout(function() {
                // popupCollection.open();
             }, 4000);
