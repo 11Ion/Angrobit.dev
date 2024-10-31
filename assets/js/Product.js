@@ -4,10 +4,27 @@ export class Product{
     constructor(array, scene) {
         this.array = array;
         this.scene = scene;
-        // show product desc
-        document.addEventListener("click", this.displayDesc("btn_details"));
+        this.lastClickedProductId = null;
+        this.initProductEvents();
     }
 
+    initProductEvents() {
+        document.addEventListener("click", (e) => {  
+            const target = e.target.closest('.product');
+            if (target) {
+                const productId = target.getAttribute('data-id');
+    
+                if (this.lastClickedProductId === productId) return;
+                this.lastClickedProductId = productId;
+    
+                const productData = { ...target.dataset };
+                this.updatePreviewProduct(productData);
+            }
+        });
+    
+        // Eveniment pentru afisarea descrierii
+        document.addEventListener("click", () => this.displayDesc("btn_details"));
+    }
     
     verifyArray(type){
         let arrayJson = JSON.parse(this.array);
@@ -39,7 +56,6 @@ export class Product{
         // Сохраняем обновленный массив в this.globalsetting
         this.globalsetting = array;
 
-        // console.log(this.globalsetting)
     }
 
     rootprodcut(element){
@@ -66,11 +82,11 @@ export class Product{
     cardthemplate(){
     }
 
-    rootTemplate(arrayJson) {
+    rootTemplate(products) {
         const productsContainer = document.getElementById('productsContainer');
         productsContainer.innerHTML = '';
 
-        arrayJson.forEach(product => {
+        products.forEach(product => {
             const productElement = this.createProductElement(product); 
             productsContainer.appendChild(productElement);
         });
@@ -90,9 +106,7 @@ export class Product{
 
     createProductElement(productData) {
         // Main product container
-        const productElement = this.createElement('article', ['product']);
-        productElement.onclick = () => this.updatePreviewProduct(productData);
-
+        const productElement = this.createElement('article', ['product'],  { 'data-id': productData.id, 'data-name': productData.name, 'data-price': productData.price, 'data-image': 'https://angrobit.com/uploads/'+productData.img, 'data-size': productData.size,'data-color': productData.color,'data-description':productData.description,'data-material': productData.material,'data-benefici': productData.benefici,'data-model': productData.model,'data-type': productData.type });
         // Background span
         const bgSpan = this.createElement('span', ['bg']);
         productElement.appendChild(bgSpan);
@@ -146,12 +160,11 @@ export class Product{
 
         // current price
         document.getElementById("price_preview").innerText = `$ ${productData.price}`;
-
         const commonAttributes = {
             'data-id': productData.id,
             'data-name': productData.name,
             'data-price': productData.price,
-            'data-image': 'https://angrobit.com/uploads/' + productData.img,
+            'data-image': productData.image,
             'data-size': productData.size,
             'data-color': productData.color,
             'data-description':productData.description,
