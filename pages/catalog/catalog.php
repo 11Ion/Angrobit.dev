@@ -357,7 +357,7 @@
                     <p class="price" id="price_preview"></p>
                     <div class="buttons">
                         <button class="button" id="btn_details"><span class="text">Details</span></button>
-                        <button class="button add_to_cart" onclick="addtocard()"><span class="text">ADD TO CART</span><span class="arrow"><img src="../../assets/images/home/icon_arrow.svg" alt="icon arrow"></span></button>
+                        <button class="button add_to_cart" id="add_to_cart_btn" onclick="addtocard()"><span class="text">ADD TO CART</span><span class="arrow"><img src="../../assets/images/home/icon_arrow.svg" alt="icon arrow"></span></button>
                     </div>
                 </div>
             </section>

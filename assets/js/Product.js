@@ -85,6 +85,7 @@ export class Product{
     createProductElement(productData) {
         // Main product container
         const productElement = this.createElement('article', ['product']);
+        productElement.onclick = () => this.updatePreviewProduct(productData);
 
         // Background span
         const bgSpan = this.createElement('span', ['bg']);
@@ -131,30 +132,29 @@ export class Product{
 
         return productElement; 
     }
+
     
     updatePreviewProduct(productData) {
         const previewPriceContainer = document.querySelector(".preview_product");
         previewPriceContainer.style.display = "flex";
 
         // current price
-        document.getElementById("price_preview").innerText = `$ ${array.price}`;
+        document.getElementById("price_preview").innerText = `$ ${productData.price}`;
 
-        // set data atributes btn details
-        const btnDetails = document.getElementById("btn_details");
-        btnDetails.setAttribute('data-id', productData.id);
-        btnDetails.setAttribute('data-name', productData.name);
-        btnDetails.setAttribute('data-price', productData.price);
-        btnDetails.setAttribute('data-image', productData.img);
-        btnDetails.setAttribute('data-size', productData.size);
-        btnDetails.setAttribute('data-color', productData.color);
+        const commonAttributes = {
+            'data-id': productData.id,
+            'data-name': productData.name,
+            'data-price': productData.price,
+            'data-image': productData.img,
+            'data-size': productData.size,
+            'data-color': productData.color
+        };
 
-        // set data atributes btn add to cart
-        const btnAddCart = document.querySelector(".button.add_to_cart");
-        btnAddCart.setAttribute('data-id', productData.id);
-        btnAddCart.setAttribute('data-name', productData.name);
-        btnAddCart.setAttribute('data-price', productData.price);
-        btnAddCart.setAttribute('data-image', productData.img);
-        btnAddCart.setAttribute('data-size', productData.size);
-        btnAddCart.setAttribute('data-color', productData.color);
+        ['btn_details', 'add_to_cart_btn'].forEach(selector => {
+            const element = document.getElementById(selector);
+            Object.entries(commonAttributes).forEach(([attr, value]) => {
+                element.setAttribute(attr, value);
+            });
+        });
     }
 }
