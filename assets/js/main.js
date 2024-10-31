@@ -36,6 +36,9 @@ if(root.page === "catalog"){
             console.error(error); 
         });
 }
+
+
+
 // show product description show
 function ProductCatalogShow(result) {
    if (result.length === 0) {

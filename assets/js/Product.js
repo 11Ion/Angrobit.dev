@@ -29,7 +29,7 @@ export class Product{
     
     verifyArray(type){
         // Массив с конфигурациями
-        const array = [
+        const arrayConfig = [
             {
                 type: 'productloader',
                 array: false,
@@ -45,14 +45,14 @@ export class Product{
         ];
 
         // Перебираем элементы массива и ищем совпадение по ключу type
-        for (let item of array) {
+        for (let item of arrayConfig) {
             if (item.type === type) {
                 (!item.array) ? item.array = true :  item.array = false;
                 break;
             }
         }
 
-        this.globalsetting = array;
+        this.globalsetting = arrayConfig;
         console.debug(this.globalsetting)
 
     }
