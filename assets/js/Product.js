@@ -5,6 +5,7 @@ export class Product{
         this.array = array;
         this.scene = scene;
         this.lastClickedProductId = null;
+        this.globalsetting = [];
         this.initProductEvents();
     }
 
@@ -30,7 +31,7 @@ export class Product{
         const array = [
             {
                 type: 'productloader',
-                array: true,
+                array: false,
                 messages_error: 'The product was not found :(',
                 containerId : ""
             },
@@ -53,6 +54,7 @@ export class Product{
 
         // Сохраняем обновленный массив в this.globalsetting
         this.globalsetting = array;
+        console.log(this.globalsetting)
 
     }
 
