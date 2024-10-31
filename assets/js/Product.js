@@ -21,9 +21,7 @@ export class Product{
                 this.updatePreviewProduct(productData);
             }
         });
-    
-        // Eveniment pentru afisarea descrierii
-        document.addEventListener("click", () => this.displayDesc("btn_details"));
+        this.displayDesc("btn_details");
     }
     
     verifyArray(type){
@@ -157,37 +155,23 @@ export class Product{
     updatePreviewProduct(productData) {
         const previewPriceContainer = document.querySelector(".preview_product");
         previewPriceContainer.style.display = "flex";
-
-        // current price
+        // current price product
         document.getElementById("price_preview").innerText = `$ ${productData.price}`;
-        const commonAttributes = {
-            'data-id': productData.id,
-            'data-name': productData.name,
-            'data-price': productData.price,
-            'data-image': productData.image,
-            'data-size': productData.size,
-            'data-color': productData.color,
-            'data-description':productData.description,
-            'data-material': productData.material,
-            'data-benefici': productData.benefici,
-            'data-model': productData.model,
-            'data-type': productData.type
-        };
-        
-        ['btn_details', 'add_to_cart_btn'].forEach(selector => {
-            const element = document.getElementById(selector);
-            Object.entries(commonAttributes).forEach(([attr, value]) => {
-                element.setAttribute(attr, value);
-            });
-        });
 
+        // set data atributes
+        const setDataAttributes = (element, data) => {
+            Object.keys(data).forEach(key => element.setAttribute(`data-${key}`, data[key]));
+        };
+        // set btn details, btn addtocart atributes.
+        ['btn_details', 'add_to_cart_btn'].forEach(id => setDataAttributes(document.getElementById(id), productData));
+        // update merch scene3d
         this.updateMerch(productData.model, productData.type, productData.name, productData.color);
     }
-
+    // show product desc
     displayDesc(btnId){
        const preview = new ProductPreview(btnId, "desc-product-template");
     }
-
+    // function update merch scene3d
     updateMerch(url, type, name, color){
         this.scene.putOnclothes(`${window.location.origin}/assets/models/${url}`, type, name, color);
     }
