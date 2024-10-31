@@ -343,24 +343,7 @@
                         </div>
                     </div>
                     <div class="products" id="productsContainer">
-                        <!-- PRODUCT ITEMS -->
-                        <template id="product-template">
-                            <article class="product">
-                                <span class="bg"></span>
-                                <button class="botton_add_to_cart" data-id="" data-name="" data-price="" data-image="" data-size="" data-color="" onclick="addtocard();">
-                                    <img src="../../assets/images/home/icon_cart.svg" alt="icon cart"> 
-                                </button>
-                                <div class="image_product_container"><img src="" alt=""></div>
-                                <div class="product_colors">
-                                    <label>
-                                        <input type="radio" name="color_product_" value="">
-                                        <span class="color" style="background:;"></span>
-                                    </label>
-                                </div>
-                                <p class="product_name"></p>
-                                <button class="button_buy" data-id="" data-name="" data-price="" data-image=""><span class="text"></span></button>
-                            </article>
-                        </template>
+
                     </div>
                 </div>
             </section>

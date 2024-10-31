@@ -4,7 +4,8 @@ import Root from './root.js';
 import Carousel3D from './Carousel3D.js';
 import ProductPreview from './ProductPreview.js';
 import SceneManager from './SceneManager.js';
-
+import { SendServer } from './SendServer.js';
+import { Product } from './Product.js';
 const root = new Root();
 console.debug(root.page)
 const UrlMannequin = `${window.location.origin}/assets/models/man_mannequin.gltf`;
@@ -19,101 +20,22 @@ if(root.page === "home"){
 }
 
 if(root.page === "catalog"){
-   var catalogScene = new Scene3d('.model', UrlMannequin, 'catalog');
-   catalogScene.initScene();
-   // Функция для получения всех продуктов
-      async function fetchProducts() {
-         const data = {
-            type: 'allproduct',
-            user: '',
-            id: ''
-      };
+    const sherElement = new SendServer('https://angrobit.com/api');
+    sherElement.addData('type', 'allproduct');
+    sherElement.addData('user', '');
+    sherElement.addData('id', '');
+    sherElement.send()
+        .then(response => {
+            const product = new Product(response);
+            product.rootprodcut('productloader');
 
-      // Конвертируем объект в URL-encoded строку для отправки через POST-запрос
-      const params = new URLSearchParams(data).toString();
+        })
+        .catch(error => {
+            console.error(error); // Обработка ошибок
+        });
 
-      // delete in production
-      const testData = [
-      {
-            "id": "30",
-            "name": "ProductNames",
-            "description": "Description",
-            "price": "423",
-            "img": "http://localhost:3000/assets/images/home/default.png",
-            "size": "S",
-            "color": "#000000",
-            "type_product": "upper",
-            "model": "hoody.gltf",
-            "material": "100% cotton",
-            "benefici": "benefis test"
-      },
-      {
-            "id": "31",
-            "name": "ProductNames 2",
-            "description": "Description 2",
-            "price": "350",
-            "img": "http://localhost:3000/assets/images/home/default.png",
-            "size": "M",
-            "color": "#FFFFFF",
-            "type_product": "lower",
-            "model": "jeans.gltf",
-            "material": "80% cotton, 20% polyester",
-            "benefici": "benefis test"
-      },
-      {
-            "id": "32",
-            "name": "ProductNames 3",
-            "description": "Description 3",
-            "price": "299",
-            "img": "http://localhost:3000/assets/images/home/default.png",
-            "size": "L",
-            "color": "#FF5733",
-            "type_product": "upper",
-            "model": "t_shirt.gltf",
-            "material": "100% leather",
-            "benefici": "benefis test"
-      }
-      ];
 
-      try {
-         // Отправляем запрос на сервер
-         let response = await fetch('https://angrobit.com/api', {
-            method: 'POST',
-            headers: {
-               'Content-Type': 'application/x-www-form-urlencoded',
-               'X-Requested-With': 'XMLHttpRequest'
-            },
-            body: params 
-         });
 
-         // Проверяем успешен ли запрос
-         if (!response.ok) {
-            throw new Error(`Error network: ${response.status}`); // Обрабатываем ошибки сети
-         }
-         
-         const productsContainer = document.getElementById('productsContainer');
-         if (!productsContainer) return;
-
-         // Парсим ответ сервера
-         const result = await response.json();
-   
-         // Проверяем, является ли результат массивом
-         if (result && Array.isArray(result)) {
-            // show products 
-            ProductCatalogShow(result); 
-         } else {
-            console.warn('Products are not available or are not in the expected format');
-         }
-
-      } catch (error) {
-         console.error('Error:', error); // Обрабатываем ошибки
-         // delete in production
-         ProductCatalogShow(testData); 
-      }
-   }
-   document.addEventListener('DOMContentLoaded', () => {
-      fetchProducts();
-   })
 }
 // show product description show
 function ProductCatalogShow(result) {

@@ -156,85 +156,26 @@
                   <img class="circle_image_product" src="" alt="" draggable="false">
                </div>
             </template>
-            <script>
+            <script type="module">
+                import { SendServer } from './assets/js/SendServer.js';
+                const sherElement = new SendServer('https://angrobit.com/api');
+                sherElement.addData('type', 'allproduct');
+                sherElement.addData('user', '');
+                sherElement.addData('id', '');
+                sherElement.send()
+                    .then(response => {
+                        let data = JSON.parse(response);
+                        // api response top products test
+                        console.log(data)
+                        createProductElements(data);
+                        createCarouselSlides(data);
+           
+                    })
+                    .catch(error => {
+                        console.error(error); // Обработка ошибок
+                    });
                const apiUrl = 'https://angrobit.com/api';
-               // api response top products test
-               const apiResponse = {
-                   products: [
-                       {
-                           name: "T-shirt",
-                           price: 191,
-                           size: "S",
-                           color: "white",
-                           description: "Descroptiodsand dadaskd jadj ajds",
-                           material: "COTTON",
-                           benefici: "dsad asdadk aosd aosdjaidja",
-                           type: "upper",
-                           imageUrl: "./assets/images/home/shirt1.png",
-                           model: "t_shirt.gltf",
-                       },
-                       {
-                           name: "Hoody",
-                           price: 192,
-                           size: "S",
-                           color: "black",
-                           description: "Descroptiodsand dadaskd jadj ajds",
-                           material: "COTTON",
-                           benefici: "dsad asdadk aosd aosdjaidja",
-                           type: "upper",
-                           imageUrl: "./assets/images/home/shirt2.png",
-                           model: "hoody.gltf",
-                       },
-                       {
-                           name: "T-shirt",
-                           price: 193,
-                           size: "S",
-                           color: "yellow",
-                           description: "Descroptiodsand dadaskd jadj ajds",
-                           material: "COTTON",
-                           benefici: "dsad asdadk aosd aosdjaidja",
-                           type: "upper",
-                           imageUrl: "./assets/images/home/shirt3.png",
-                           model: "t_shirt.gltf",
-                       },
-                       {
-                           name: "Hoody",
-                           price: 194,
-                           size: "S",
-                           color: "green",
-                           description: "Descroptiodsand dadaskd jadj ajds",
-                           material: "COTTON",
-                           benefici: "dsad asdadk aosd aosdjaidja",
-                           type: "upper",
-                           imageUrl: "./assets/images/home/shirt4.png",
-                           model: "hoody.gltf",
-                       },
-                       {
-                           name: "T-shirt",
-                           price: 195,
-                           size: "S",
-                           color: "purple",
-                           description: "Descroptiodsand dadaskd jadj ajds",
-                           material: "COTTON",
-                           benefici: "dsad asdadk aosd aosdjaidja",
-                           type: "upper",
-                           imageUrl: "./assets/images/home/shirt5.png",
-                           model: "t_shirt.gltf",
-                       },
-                       {
-                           name: "Hoody",
-                           price: 196,
-                           size: "S",
-                           color: "burlywood",
-                           description: "Descroptiodsand dadaskd jadj ajds",
-                           material: "COTTON",
-                           benefici: "dsad asdadk aosd aosdjaidja",
-                           type: "upper",
-                           imageUrl: "./assets/images/home/shirt6.png",
-                           model: "hoody.gltf",
-                       }
-                   ]
-               };
+
                function createProductElements(products) {
                   const container = document.querySelector('.scene_3d');
                   const template = document.getElementById('circles-template');
@@ -244,23 +185,17 @@
                      productElement.setAttribute('data-index', index);
                      productElement.setAttribute('data-color', product.color);
                      productElement.setAttribute('data-model', product.model);
-                     productElement.setAttribute('data-type', product.type);
+                     productElement.setAttribute('data-type', 'upper');
                      productElement.setAttribute('data-name', product.name);
                      const productImage = productClone.querySelector('.circle_image_product');
-                     productImage.src = product.imageUrl;
+                     productImage.src = 'https://angrobit.com/uploads/'+product.img;
                      productImage.alt = product.name;
+                     console.log(product.model)
                      container.appendChild(productClone); 
                   });
                }
-               function loadCircles() {
-                  // fetch(apiUrl)
-                  //   .then(response => response.json())
-                  //   .then(data => createProductElements(data.products))
-                  //   .catch(error => console.error('Error loading products:', error));
 
-                  createProductElements(apiResponse.products);
-               }
-               document.addEventListener('DOMContentLoaded', loadCircles);
+
             </script>
          </section>
       </main>
@@ -293,7 +228,7 @@
                               const slideClone = template.content.cloneNode(true);  
                               const slideDiv = slideClone.querySelector('.carousel_slide');
                               slideDiv.setAttribute('data-id', index + 1);
-                              slideDiv.setAttribute('data-image', product.imageUrl);
+                              slideDiv.setAttribute('data-image', 'https://angrobit.com/uploads/' + product.img);
                               slideDiv.setAttribute('data-name', product.name);
                               slideDiv.setAttribute('data-price', product.price);
                               slideDiv.setAttribute('data-size', product.size);
@@ -304,19 +239,12 @@
                               slideDiv.setAttribute('data-type', product.type);
                               slideDiv.setAttribute('data-model', product.model);
                               const productImage = slideClone.querySelector('img');
-                              productImage.src = product.imageUrl;
+                              productImage.src = 'https://angrobit.com/uploads/'+ product.img;
                               productImage.alt = `${product.name} ${product.color}`;
                               carouselContainer.appendChild(slideClone);
                            });
                         }
-                        function loadSlides() {
-                        // fetch(apiUrl)
-                        //   .then(response => response.json())
-                        //   .then(data => createProductElements(data.products))
-                        //   .catch(error => console.error('Error loading products:', error));
-                           createCarouselSlides(apiResponse.products);
-                        }
-                        document.addEventListener('DOMContentLoaded', loadSlides);
+                      
                      </script>
                   </div>
                </div>

@@ -78,7 +78,7 @@ class ProductPreview {
         btnAddToCart.setAttribute('data-id', data.id);
         btnAddToCart.setAttribute('data-name', data.name);
         btnAddToCart.setAttribute('data-price', data.price);
-        btnAddToCart.setAttribute('data-image', data.image);
+        btnAddToCart.setAttribute('data-image', 'https://angrobit.com/uploads/'+data.img);
         btnAddToCart.setAttribute('data-size', data.size);
         btnAddToCart.setAttribute('data-color', data.color);
     
