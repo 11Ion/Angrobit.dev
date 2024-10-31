@@ -45,7 +45,6 @@ export class Product{
                 break;
             }
         }
-
         this.globalsetting = arrayConfig;
     }
 
@@ -63,7 +62,6 @@ export class Product{
     productloader(){
         this.verifyArray('productloader')
         this.rootTemplate(this.array);
-        
     }
 
     filtreprodcut(){
@@ -91,7 +89,6 @@ export class Product{
     
         this.updateMerch(productData.model, productData.type, productData.name, productData.color);
     }
-    
 
     getActiveConfig(){
         return this.globalsetting.find(item => item.array === true);
@@ -111,6 +108,11 @@ export class Product{
         const activeConfig = this.getActiveConfig();
         const productsContainer = document.getElementById(activeConfig.containerId);
         productsContainer.innerHTML = '';
+
+        if (products.length === 0) {
+            productsContainer.insertAdjacentHTML('afterend', `<em class='empty_search_result'>${activeConfig.messages_error}</em>`);
+            return;
+        }   
 
         products.forEach(product => {
             const productElement = this.createProductElement(product); 
