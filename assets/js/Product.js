@@ -1,9 +1,9 @@
 import ProductPreview from "./ProductPreview.js";
 
 export class Product{
-    constructor(array) {
+    constructor(array, scene) {
         this.array = array;
-
+        this.scene = scene;
         // show product desc
         document.addEventListener("click", this.displayDesc("btn_details"));
     }
@@ -143,6 +143,7 @@ export class Product{
     updatePreviewProduct(productData) {
         const previewPriceContainer = document.querySelector(".preview_product");
         previewPriceContainer.style.display = "flex";
+
         // current price
         document.getElementById("price_preview").innerText = `$ ${productData.price}`;
 
@@ -160,17 +161,22 @@ export class Product{
             'data-type': productData.type
         };
         
-        
         ['btn_details', 'add_to_cart_btn'].forEach(selector => {
             const element = document.getElementById(selector);
             Object.entries(commonAttributes).forEach(([attr, value]) => {
                 element.setAttribute(attr, value);
             });
         });
+
+        this.updateMerch(productData.model, productData.type, productData.name, productData.color);
     }
 
     displayDesc(btnId){
        const preview = new ProductPreview(btnId, "desc-product-template");
+    }
+
+    updateMerch(url, type, name, color){
+        this.scene.putOnclothes(`${window.location.origin}/assets/models/${url}`, type, name, color);
     }
 
 }

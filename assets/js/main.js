@@ -30,7 +30,7 @@ if(root.page === "catalog"){
     sherElement.addData('id', '');
     sherElement.send()
         .then(response => {
-            const product = new Product(response);
+            const product = new Product(response, scene);
             product.rootprodcut('productloader');
         })
         .catch(error => {
