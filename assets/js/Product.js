@@ -21,6 +21,7 @@ export class Product{
     
                 const productData = { ...target.dataset };
                 this.updatePreviewProduct(productData);
+
             }
         });
         this.displayDesc("btn_details");
@@ -52,7 +53,7 @@ export class Product{
         }
 
         this.globalsetting = array;
-        console.log(this.globalsetting)
+        console.debug(this.globalsetting)
 
     }
 

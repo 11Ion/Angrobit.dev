@@ -189,7 +189,6 @@
                      const productImage = productClone.querySelector('.circle_image_product');
                      productImage.src = 'https://angrobit.com/uploads/'+product.img;
                      productImage.alt = product.name;
-                     console.log(product.model)
                      container.appendChild(productClone); 
                   });
                }
