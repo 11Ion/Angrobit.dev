@@ -20,7 +20,6 @@ if(root.page === "home"){
 }
 
 if(root.page === "catalog"){
-   
     const scene = new SceneManager(".model", UrlMannequin, root.page);
     scene.initScene();
 
@@ -36,10 +35,6 @@ if(root.page === "catalog"){
         .catch(error => {
             console.error(error); 
         });
-        
-
-
-
 }
 // show product description show
 function ProductCatalogShow(result) {
